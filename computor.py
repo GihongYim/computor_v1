@@ -31,10 +31,29 @@ def polynomial(p : str) -> list:
     if x_pow not in poly.keys():
         poly[x_pow] = 0.0
     poly[x_pow] = coef
-    print(poly)
+    # print(poly)
     return poly
-        
+
+
+def poly_form(poly: dict):
+    form_list = []
+    for pow_x, coeff in poly.items():
+        if coeff == 0.0: continue
+        if coeff < 0.0:
+            form_list.append('-')
+            coeff = -coeff
+        elif len(form_list) != 0:
+            form_list.append('+')
+        form_list.append(str(coeff) + " * X^" + str(pow_x))
     
+    if len(form_list) == 0:
+        reduced_form = '0'
+    else:
+        reduced_form = ' '.join(form_list)
+    return reduced_form
+
+def get_degree(poly: dict):
+    return [key for key in poly.keys()][-1]
 
 def computor(equation: str):
     try:
@@ -57,8 +76,10 @@ def computor(equation: str):
         if x_pow not in left_poly.keys():
             left_poly[x_pow] = 0.0
         left_poly[x_pow] -= coef
-    
-    print(left_poly)
+    poly_degree = get_degree(left_poly)
+    left_terms = poly_form(left_poly)
+    print(f"Reduced form: {left_terms} = 0")
+    print(f"Polynomial degree: {poly_degree}")
 
 
 
