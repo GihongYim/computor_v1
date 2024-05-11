@@ -31,14 +31,13 @@ def polynomial(p : str) -> list:
     if x_pow not in poly.keys():
         poly[x_pow] = 0.0
     poly[x_pow] = coef
-    # print(poly)
     return poly
 
 
 def poly_form(poly: dict):
     form_list = []
     for pow_x, coeff in poly.items():
-        if coeff == 0.0: continue
+        # if coeff == 0.0: continue
         if coeff < 0.0:
             form_list.append('-')
             coeff = -coeff
@@ -56,7 +55,28 @@ def get_degree(poly: dict):
     return [key for key in poly.keys()][-1]
 
 def discriminant(poly: dict):
+    for i in range(3):
+        if i not in poly.keys():
+            poly[i] = 0.0
     return poly[1] ** 2 - 4 * poly[2] * poly[0]
+
+def quadratic_eq(poly: dict, D: float):
+    solution = []
+    if D == 0.0:
+        solution.append(-poly[1] / (2.0 * poly[2]))
+        return 
+    
+    elif D > 0.0:
+        solution.append((-poly[1] - (D ** (1 / 2)) ) / (2.0 * poly[2]))
+        solution.append((-poly[1] + (D ** (1 / 2)) ) / (2.0 * poly[2]))
+    return solution
+        
+def linear_eq(poly: dict):
+    if poly[0] == 0.0:
+        return "R"
+    else:
+        return -poly[0] / poly[1] 
+
 
 def computor(equation: str):
     try:
@@ -86,16 +106,26 @@ def computor(equation: str):
 
     if poly_degree >= 3:
         print("The polynomial degree is strictly greater than 2, I can't solve.")
-    else:
+    elif poly_degree == 2:
         D = discriminant(left_poly)
-        if D > 0:
-            pass
+        if D < 0:
+            print("Discriminant is strictly negative, there is no solution")
         elif D == 0.0:
-            pass
+            print("Discriminant is zero, only one solution is")
+            x = quadratic_eq(left_poly, D)
         else:
-            pass
-
-
+            solution = quadratic_eq(left_poly, D)
+        for x in solution:
+            print(x)
+    elif poly_degree == 1:
+        solution = linear_eq(left_poly)
+        print(solution)
+    elif poly_degree == 0:
+        if left_poly[0] == 0.0:
+            print('R')
+        else:
+            print('No solution')
+        
 
 
 if __name__ == "__main__":
