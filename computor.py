@@ -55,6 +55,9 @@ def poly_form(poly: dict):
 def get_degree(poly: dict):
     return [key for key in poly.keys()][-1]
 
+def discriminant(poly: dict):
+    return poly[1] ** 2 - 4 * poly[2] * poly[0]
+
 def computor(equation: str):
     try:
         if not isinstance(equation, str):
@@ -80,6 +83,18 @@ def computor(equation: str):
     left_terms = poly_form(left_poly)
     print(f"Reduced form: {left_terms} = 0")
     print(f"Polynomial degree: {poly_degree}")
+
+    if poly_degree >= 3:
+        print("The polynomial degree is strictly greater than 2, I can't solve.")
+    else:
+        D = discriminant(left_poly)
+        if D > 0:
+            pass
+        elif D == 0.0:
+            pass
+        else:
+            pass
+
 
 
 
